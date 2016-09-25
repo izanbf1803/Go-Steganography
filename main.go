@@ -129,7 +129,8 @@ func readImage(fn string) [][3]byte {
 		err.Exit("Can't open \"%s\"", fn)
 	}
 	var index int
-	for i := 0; i < len(file)-2; i += 3 {
+	for i := 0; i <= len(file) && index < len(data); i += 3 {
+		//fmt.Println(i, len(file), index, len(data))
 		data[index] = [3]byte{file[i], file[i+1], file[i+2]}
 		index++
 	}
@@ -175,6 +176,8 @@ func encode(fn string, msg string, out string) {
 			err.Exit("Can't crypt message")
 		}
 	}
+
+	fmt.Println(msg)
 
 	img := readImage(fn)
 	if len(msg)*8 > len(img)-offset {
